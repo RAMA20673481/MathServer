@@ -33,207 +33,113 @@ Publish the website in the given URL.
 
 ## PROGRAM :
 
-math.html
-<html>
+index.html
+```
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Area of squareprism</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<style type="text/css">
-body 
-{
-background-color:rgb(179, 255, 0);
-}
-.edge {
-width: 1440px;
-margin-left: auto;
-margin-right: auto;
-padding-top: 250px;
-padding-left: 300px;
-}
-.box {
-display:block;
-border: Thick dashed rgb(51, 0, 255);
-width: 500px;
-min-height: 300px;
-font-size: 20px;
-background-color:rgb(0, 251, 255);
-}
-.formelt{
-color:rgb(255, 0, 200);
-text-align: center;
-margin-top: 7px;
-margin-bottom: 6px;
-}
-h1
-{
-color:rgb(204, 255, 0);
-text-align: center;
-padding-top: 20px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp Filament Power Calculator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="edge">
-<div class="box">
-<h1>Area of a squareprism</h1>
-<form method="POST">
-{% csrf_token %}
-<div class="formelt">
-Base : <input type="text" name="base" value="{{b}}"></input>(in m)<br/>
-</div>
-<div class="formelt">
-Height : <input type="text" name="height" value="{{h}}"></input>(in m)<br/>
-</div>
-<div class="formelt">
-<input type="submit" value="Calculate"></input><br/>
-</div>
-<div class="formelt">
-Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br/>
-</div>
-</form>
-</div>
-</div>
+    <div class="container">
+        <h1>Lamp Filament Power Calculator</h1>
+        <form id="power-form">
+            <div class="input-group">
+                <label for="intensity">Intensity (I in Amperes):</label>
+                <input type="number" id="intensity" name="intensity" step="0.01" required>
+            </div>
+            <div class="input-group">
+                <label for="resistance">Resistance (R in Ohms):</label>
+                <input type="number" id="resistance" name="resistance" step="0.01" required>
+            </div>
+            <button type="submit">Calculate Power</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('power-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const intensity = parseFloat(document.getElementById('intensity').value);
+            const resistance = parseFloat(document.getElementById('resistance').value);
+            const power = Math.pow(intensity, 2) * resistance;
+
+            document.getElementById('result').innerText = "Power: " + power.toFixed(2) + " Watts";
+        });
+    </script>
 </body>
 </html>
+```
 
-views.py
-
-from django.shortcuts import render
-def squareprism(request):
-    context={}
-    context['area'] = "0"
-    context['b'] = "0"
-    context['h'] = "0"
-    if request.method == 'POST':
-        print("POST method is used")
-        b = request.POST.get('base','0')
-        h = request.POST.get('height','0')
-        print('request=',request)
-        print('Base=',b)
-        print('Height=',h)
-        area = 2*(int(b)^2) + 4*int(b)*int(h)
-        context['area'] = area
-        context['b'] = b
-        context['h'] = h
-        print('Surface Area of square prism=',area)
-    return render(request,'mathapp/math.html',context)
-
-    urls.py
-
-    from django.contrib import admin
-from django.urls import path
-from mathapp import views
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('areaofsquareprism/',views.squareprism,name="areaofsquareprism"),
-    path('',views.squareprism,name="areaofsquareprismroot")
-]
-
-
-## SERVER SIDE PROCESSING:
-
-
-## HOMEPAGE:
-math.html
-<html>
-<head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Area of squareprism</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<style type="text/css">
-body 
-{
-background-color:rgb(179, 255, 0);
+simple.css
+```
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fbfb07;
+    margin: 0;
+    padding: 0;
 }
-.edge {
-width: 1440px;
-margin-left: auto;
-margin-right: auto;
-padding-top: 250px;
-padding-left: 300px;
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.box {
-display:block;
-border: Thick dashed rgb(51, 0, 255);
-width: 500px;
-min-height: 300px;
-font-size: 20px;
-background-color:rgb(0, 251, 255);
+
+h1 {
+    text-align: center;
+    color: #333;
 }
-.formelt{
-color:rgb(255, 0, 200);
-text-align: center;
-margin-top: 7px;
-margin-bottom: 6px;
+
+.input-group {
+    margin-bottom: 15px;
 }
-h1
-{
-color:rgb(204, 255, 0);
-text-align: center;
-padding-top: 20px;
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
 }
-</style>
-</head>
-<body>
-<div class="edge">
-<div class="box">
-<h1>Area of a squareprism</h1>
-<form method="POST">
-{% csrf_token %}
-<div class="formelt">
-Base : <input type="text" name="base" value="{{b}}"></input>(in m)<br/>
-</div>
-<div class="formelt">
-Height : <input type="text" name="height" value="{{h}}"></input>(in m)<br/>
-</div>
-<div class="formelt">
-<input type="submit" value="Calculate"></input><br/>
-</div>
-<div class="formelt">
-Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br/>
-</div>
-</form>
-</div>
-</div>
-</body>
-</html>
 
-views.py
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
-from django.shortcuts import render
-def squareprism(request):
-    context={}
-    context['area'] = "0"
-    context['b'] = "0"
-    context['h'] = "0"
-    if request.method == 'POST':
-        print("POST method is used")
-        b = request.POST.get('base','0')
-        h = request.POST.get('height','0')
-        print('request=',request)
-        print('Base=',b)
-        print('Height=',h)
-        area = 2*(int(b)^2) + 4*int(b)*int(h)
-        context['area'] = area
-        context['b'] = b
-        context['h'] = h
-        print('Surface Area of square prism=',area)
-    return render(request,'mathapp/math.html',context)
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #079ffd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-    urls.py
+button:hover {
+    background-color: #218838;
+}
 
-    from django.contrib import admin
-from django.urls import path
-from mathapp import views
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('areaofsquareprism/',views.squareprism,name="areaofsquareprism"),
-    path('',views.squareprism,name="areaofsquareprismroot")
-]
-
-
+.result {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+}
+```
 ## RESULT:
 The program for performing server side processing is completed successfully.
