@@ -1,5 +1,7 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:
+## Date:28.04.2025
+## Name: G.Ramanujam
+## Reg.No: 212224240129
 
 ## AIM:
  To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side. 
@@ -141,5 +143,10 @@ button:hover {
     color: #333;
 }
 ```
+## HOMEPAGE:
+
+![Screenshot 2025-04-28 185034](https://github.com/user-attachments/assets/544535e8-5f24-4664-84d8-54a2958d9d91)
+
+
 ## RESULT:
 The program for performing server side processing is completed successfully.
